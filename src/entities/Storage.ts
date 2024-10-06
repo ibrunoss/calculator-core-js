@@ -1,7 +1,7 @@
-import { IHistoryManager } from "../interfaces";
+import { IStorage } from "../interfaces";
 
-export default class HistoryManager<T> implements IHistoryManager<T> {
-  #storage: T[] = [];
+export default class Storage<T> implements IStorage<T> {
+  #history: T[] = [];
   #undone: T[] = [];
   #current: T | undefined;
 
@@ -11,19 +11,19 @@ export default class HistoryManager<T> implements IHistoryManager<T> {
   }
 
   // Retorna o estado atual do histórico
-  get storage(): T[] {
-    return this.#storage;
+  get history(): T[] {
+    return this.#history;
   }
 
   // Retorna o tamanho do histórico
   get length(): number {
-    return this.#storage.length;
+    return this.#history.length;
   }
 
   // Adiciona um novo item ao histórico e limpa a pilha de redo
   add(item: T): void {
     if (this.#current) {
-      this.#storage.push(this.#current);
+      this.#history.push(this.#current);
     }
     this.#current = item;
     this.#undone = []; // Limpa a lista de undone quando um novo item é adicionado
@@ -35,7 +35,7 @@ export default class HistoryManager<T> implements IHistoryManager<T> {
       this.#undone.push(this.#current);
     }
 
-    this.#current = this.#storage.pop();
+    this.#current = this.#history.pop();
 
     return this.#current;
   }
@@ -44,7 +44,7 @@ export default class HistoryManager<T> implements IHistoryManager<T> {
   redo(): T | undefined {
     if (this.#undone.length > 0) {
       if (this.#current) {
-        this.#storage.push(this.#current);
+        this.#history.push(this.#current);
       }
 
       this.#current = this.#undone.pop();
@@ -55,7 +55,7 @@ export default class HistoryManager<T> implements IHistoryManager<T> {
 
   // Limpa todo o histórico e o estado atual
   clear(): void {
-    this.#storage = [];
+    this.#history = [];
     this.#undone = [];
     this.#current = undefined;
   }

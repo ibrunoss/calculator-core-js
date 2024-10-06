@@ -1,1 +1,1 @@
-export { default as HistoryManager } from "./HistoryManager";
+export { default as Storage } from "./Storage";

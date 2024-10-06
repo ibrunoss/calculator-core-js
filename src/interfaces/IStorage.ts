@@ -1,6 +1,6 @@
-export default interface IHistoryManager<T> {
+export default interface IStorage<T> {
   // Propriedade que retorna o histórico
-  storage: T[];
+  history: T[];
 
   // Propriedade que retorna o estado atual do histórico
   current: T | undefined;

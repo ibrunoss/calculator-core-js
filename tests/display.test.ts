@@ -1,40 +1,47 @@
-import Display from "../src/display";
+import { Display, Storage } from "../src/entities";
 
 describe("Display", () => {
+  const storage = new Storage<string>();
+  let display = new Display("0", storage);
+
+  beforeEach(() => {
+    storage.clear();
+    display.reset();
+  });
+
   it("should correctly display default value", () => {
-    let display = new Display("0");
-    expect(display.value).toEqual("0");
+    expect(display.textValue).toEqual("0");
+    expect(display.numericValue).toEqual(0);
 
-    display = new Display("");
-    expect(display.value).toEqual("");
+    display = new Display("", new Storage<string>());
+    expect(display.textValue).toEqual("");
+    expect(display.numericValue).toEqual(0);
 
-    display = new Display("NaN");
-    expect(display.value).toEqual("NaN");
+    display = new Display("NaN", new Storage<string>());
+    expect(display.textValue).toEqual("NaN");
+    expect(display.numericValue).toEqual(0);
   });
 
   it("should correctly concat display value", () => {
-    const display = new Display("Display");
-
     display.concat("0");
-    expect(display.value).toEqual("0");
+    expect(display.textValue).toEqual("0");
 
     display.concat("1");
-    expect(display.value).toEqual("1");
+    expect(display.textValue).toEqual("1");
 
-    display.setDecimal();
-    display.setDecimal();
+    display.concat(".");
+    display.concat(".");
     display.concat("0");
     display.concat("0");
     display.concat("2");
-    expect(display.value).toEqual("1.002");
+    expect(display.textValue).toEqual("1.002");
   });
 
   it("should correctly display history", () => {
-    const display: Display = new Display("Display");
+    const display: Display = new Display("Display", new Storage<string>());
     let mockHistory: string[] = [];
 
     display.concat("0");
-    mockHistory.push("Display");
     display.concat("0");
     display.concat("0");
     display.concat("1");
@@ -43,99 +50,74 @@ describe("Display", () => {
     mockHistory.push("1");
     display.concat("2");
     mockHistory.push("12");
-    expect(display.history.length).toEqual(mockHistory.length);
-    expect(display.history.every((v, k) => v === mockHistory[k])).toBeTruthy();
+    expect(display.history).toEqual(mockHistory);
 
-    display.backspace();
+    display.storage.undo();
     mockHistory.pop();
-    expect(display.history.length).toEqual(mockHistory.length);
-    expect(display.history.every((v, k) => v === mockHistory[k])).toBeTruthy();
+    expect(display.history).toEqual(mockHistory);
 
-    display.setDecimal();
+    display.concat(".");
     mockHistory.push("12");
     display.concat("3");
     mockHistory.push("12.");
     display.concat("4");
     mockHistory.push("12.3");
-    expect(display.history.length).toEqual(mockHistory.length);
-    expect(display.history.every((v, k) => v === mockHistory[k])).toBeTruthy();
+    expect(display.history).toEqual(mockHistory);
 
     display.reset();
     mockHistory = [];
-    expect(display.history.length).toEqual(mockHistory.length);
-    expect(display.history.every((v, k) => v === mockHistory[k])).toBeTruthy();
-  });
-
-  it("should correctly backspace display value", () => {
-    const display = new Display("Display");
-
-    display.concat("0");
-    display.concat("0");
-    display.setDecimal();
-    display.concat("0");
-    display.concat("0");
-    display.concat("2");
-
-    display.backspace();
-    display.backspace();
-    display.backspace();
-    expect(display.value).toEqual("0.");
-
-    display.backspace();
-    display.backspace();
-    expect(display.value).toEqual("Display");
-
-    display.backspace();
-    expect(display.value).toEqual("Display");
+    expect(display.history).toEqual(mockHistory);
   });
 
   it("should correctly display decimal value", () => {
-    let display = new Display("Display");
-
     display.concat("0");
     display.concat("0");
     display.concat("0");
-    display.setDecimal();
+    display.concat(".");
     display.concat("0");
     display.concat("0");
     display.concat("2");
-    expect(display.value).toEqual("0.002");
+    expect(display.textValue).toEqual("0.002");
+    expect(display.numericValue).toEqual(0.002);
 
     display.reset();
     display.concat("0");
     display.concat("0");
     display.concat("1");
     display.concat("2");
-    display.setDecimal();
-    display.setDecimal();
+    display.concat(".");
+    display.concat(".");
     display.concat("0");
     display.concat("0");
     display.concat("0");
     display.concat("2");
-    display.setDecimal();
+    display.concat(".");
     display.concat("3");
     display.concat("4");
     display.concat("5");
     display.concat("6");
-    expect(display.value).toEqual("12.00023456");
+    expect(display.textValue).toEqual("12.00023456");
+    expect(display.numericValue).toEqual(12.00023456);
 
-    display = new Display("");
-    display.setDecimal();
-    expect(display.value).toEqual("0.");
+    display = new Display("", new Storage<string>());
+    display.concat(".");
+    expect(display.textValue).toEqual("0.");
+    expect(display.numericValue).toEqual(0);
   });
-});
 
-it("should correctly reset display", () => {
-  const display = new Display("Display");
+  it("should correctly reset display", () => {
+    const display = new Display("Display", new Storage<string>());
 
-  display.concat("0");
-  display.concat("0");
-  display.concat("0");
-  display.setDecimal();
-  display.concat("0");
-  display.concat("0");
-  display.concat("2");
-  display.reset();
-  expect(display.value).toEqual("Display");
-  expect(display.history.length).toEqual(0);
+    display.concat("0");
+    display.concat("0");
+    display.concat("0");
+    display.concat(".");
+    display.concat("0");
+    display.concat("0");
+    display.concat("2");
+    display.reset();
+    expect(display.textValue).toEqual("Display");
+    expect(display.numericValue).toEqual(0);
+    expect(display.history.length).toEqual(0);
+  });
 });

@@ -1,5 +1,7 @@
+import { helloWord } from "../src/index";
+
 describe("Test", () => {
   it("Test CI", () => {
-    expect(true).toBeFalsy();
+    expect(helloWord).toEqual("Hello Word!");
   });
 });

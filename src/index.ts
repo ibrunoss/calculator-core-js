@@ -1,1 +1,1 @@
-export { default as Display } from "./display";
+export * from "./entities";

@@ -90,7 +90,7 @@ describe("Display", () => {
   });
 
   it("should correctly display decimal value", () => {
-    const display = new Display("Display");
+    let display = new Display("Display");
 
     display.concat("0");
     display.concat("0");
@@ -118,6 +118,10 @@ describe("Display", () => {
     display.concat("5");
     display.concat("6");
     expect(display.value).toEqual("12.00023456");
+
+    display = new Display("");
+    display.setDecimal();
+    expect(display.value).toEqual("0.");
   });
 });
 

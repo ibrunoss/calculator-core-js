@@ -1,1 +1,1 @@
-export const helloWord = "Hello Word!";
+export { default as Display } from "./display";

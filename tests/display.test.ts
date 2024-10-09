@@ -1,112 +1,64 @@
-import { Display, Storage } from "../src/entities";
+import { Display } from "../src/entities";
 
 describe("Display", () => {
-  const storage = new Storage<string>();
-  let display = new Display("0", storage);
+  let display = new Display();
 
   beforeEach(() => {
-    storage.clear();
-    display.reset();
+    display = new Display();
   });
 
   it("should correctly display default value", () => {
-    expect(display.textValue).toEqual("0");
-    expect(display.numericValue).toEqual(0);
+    expect(display.value).toEqual("");
 
-    display = new Display("", new Storage<string>());
-    expect(display.textValue).toEqual("");
-    expect(display.numericValue).toEqual(0);
+    display = new Display("0");
+    expect(display.value).toEqual("0");
 
-    display = new Display("NaN", new Storage<string>());
-    expect(display.textValue).toEqual("NaN");
-    expect(display.numericValue).toEqual(0);
+    display = new Display("NaN");
+    expect(display.value).toEqual("NaN");
   });
 
   it("should correctly concat display value", () => {
-    display.concat("0");
-    expect(display.textValue).toEqual("0");
+    display.concat("01231");
+    expect(display.value).toEqual("0");
 
-    display.concat("1");
-    expect(display.textValue).toEqual("1");
+    display.concat("+123");
+    expect(display.value).toEqual("0+");
 
-    display.concat(".");
-    display.concat(".");
-    display.concat("0");
-    display.concat("0");
-    display.concat("2");
-    expect(display.textValue).toEqual("1.002");
+    display.concat("2.123");
+    expect(display.value).toEqual("0+2");
+
+    display.concat(".123");
+    display.concat("876");
+    expect(display.value).toEqual("0+2.8");
   });
 
-  it("should correctly display history", () => {
-    const display: Display = new Display("Display", new Storage<string>());
-    let mockHistory: string[] = [];
+  it("should correctly update display value", () => {
+    display.update("1.123");
+    expect(display.value).toEqual("1.123");
 
-    display.concat("0");
-    display.concat("0");
-    display.concat("0");
-    display.concat("1");
-    mockHistory.push("0");
-    display.concat("2");
-    mockHistory.push("1");
-    display.concat("2");
-    mockHistory.push("12");
-    expect(display.history).toEqual(mockHistory);
+    display.update("6 + 9");
+    expect(display.value).toEqual("6 + 9");
 
-    display.storage.undo();
-    mockHistory.pop();
-    expect(display.history).toEqual(mockHistory);
+    display.update("1 + 2 = 3");
+    expect(display.value).toEqual("1 + 2 = 3");
 
-    display.concat(".");
-    mockHistory.push("12");
-    display.concat("3");
-    mockHistory.push("12.");
-    display.concat("4");
-    mockHistory.push("12.3");
-    expect(display.history).toEqual(mockHistory);
+    let updateWithInvalidValue = () => {
+      display.update("1.232.123");
+    };
+    expect(updateWithInvalidValue).toThrow(
+      new Error("Existe mais de um ponto flutuante")
+    );
 
-    display.reset();
-    mockHistory = [];
-    expect(display.history).toEqual(mockHistory);
-  });
-
-  it("should correctly display decimal value", () => {
-    display.concat("0");
-    display.concat("0");
-    display.concat("0");
-    display.concat(".");
-    display.concat("0");
-    display.concat("0");
-    display.concat("2");
-    expect(display.textValue).toEqual("0.002");
-    expect(display.numericValue).toEqual(0.002);
-
-    display.reset();
-    display.concat("0");
-    display.concat("0");
-    display.concat("1");
-    display.concat("2");
-    display.concat(".");
-    display.concat(".");
-    display.concat("0");
-    display.concat("0");
-    display.concat("0");
-    display.concat("2");
-    display.concat(".");
-    display.concat("3");
-    display.concat("4");
-    display.concat("5");
-    display.concat("6");
-    expect(display.textValue).toEqual("12.00023456");
-    expect(display.numericValue).toEqual(12.00023456);
-
-    display = new Display("", new Storage<string>());
-    display.concat(".");
-    expect(display.textValue).toEqual("0.");
-    expect(display.numericValue).toEqual(0);
+    updateWithInvalidValue = () => {
+      display.update("12+232-2");
+    };
+    expect(updateWithInvalidValue).toThrow(
+      new Error("Existe mais de um operador aritmético")
+    );
   });
 
   it("should correctly reset display", () => {
-    const display = new Display("Display", new Storage<string>());
+    const display = new Display("Display");
 
     display.concat("0");
     display.concat("0");
@@ -116,8 +68,6 @@ describe("Display", () => {
     display.concat("0");
     display.concat("2");
     display.reset();
-    expect(display.textValue).toEqual("Display");
-    expect(display.numericValue).toEqual(0);
-    expect(display.history.length).toEqual(0);
+    expect(display.value).toEqual("Display");
   });
 });

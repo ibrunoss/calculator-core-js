@@ -1,15 +1,6 @@
 import IStorage from "./IStorage";
 
 export default interface IOperand {
-  // Propriedade que gerencia o estado
-  storage: IStorage<string>;
-
-  // Propriedade que retorna o histórico
-  history: string[];
-
-  // Propriedade que armazena o valor inicial do operando
-  initialValue: string | number;
-
   // Propriedade que armazena o valor atual do operando como uma string
   textValue: string;
 

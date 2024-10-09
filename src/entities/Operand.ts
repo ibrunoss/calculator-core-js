@@ -1,28 +1,35 @@
 import { IOperand, IStorage } from "../interfaces";
 
 export default class Operand implements IOperand {
-  constructor(
-    readonly storage: IStorage<string>,
-    readonly initialValue: string | number = ""
-  ) {}
+  constructor(readonly initialValue: string | number = "") {
+    if (Number.isNaN(Number(this.initialValue))) {
+      throw new Error("initialValue é um valor inválido para um operando");
+    }
+  }
+
+  // Armazena o estado do operando
+  #value: string = "";
 
   // Retorna o valor atual do operando como uma string
   get textValue(): string {
-    return this.storage.current || String(this.initialValue);
+    if (this.#value === "") {
+      return String(this.initialValue);
+    }
+
+    return this.#value;
   }
 
   // Retorna o valor atual do operando como um número
   get numericValue(): number {
-    return Number(this.storage.current) || Number(this.initialValue) || 0;
-  }
+    if (this.#value === "") {
+      return Number(this.initialValue) || 0;
+    }
 
-  // Retorna o valor atual do operando como um número
-  get history(): string[] {
-    return this.storage.history;
+    return Number(this.#value);
   }
 
   // Adiciona um caractere ao valor atual do operando
-  concat(value: string): void {
+  concat([value]: string): void {
     if (value === ".") {
       this.handleDecimal();
       return;
@@ -48,16 +55,19 @@ export default class Operand implements IOperand {
 
   // Atualiza o valor do operando
   update(newValue: string): void {
-    this.storage.add(newValue);
+    if (Number.isNaN(Number(newValue))) {
+      throw new Error("Valor informado é inválido para um operando");
+    }
+    this.#value = newValue;
   }
 
   protected handleDecimal() {
-    if (this.storage.current === this.initialValue || !this.storage.current) {
+    if (this.textValue === this.initialValue || !this.#value) {
       this.update("0.");
       return;
     }
 
-    if (this.storage.current.indexOf(".") > -1) {
+    if (this.textValue.indexOf(".") > -1) {
       return;
     }
 
@@ -66,6 +76,6 @@ export default class Operand implements IOperand {
 
   // Limpa todo o estado do operando
   reset(): void {
-    this.storage.clear();
+    this.#value = "";
   }
 }

@@ -1,16 +1,32 @@
 export default interface IOperand {
-  // Propriedade que armazena o valor atual do operando como uma string
+  /**
+   * Representação do valor atual do operando como uma string.
+   * Usada para exibir e manipular o valor como texto.
+   */
   textValue: string;
 
-  // Propriedade que armazena o valor atual do operando como um número
+  /**
+   * Representação numérica do valor atual do operando.
+   * Usada para cálculos e operações matemáticas.
+   */
   numericValue: number;
 
-  // Método para adicionar um caractere ao valor atual do operando
+  /**
+   * Concatena um caractere ao valor atual do operando.
+   *
+   * @param value - O primeiro caractere da string a ser adicionado ao valor atual do operando.
+   */
   concat(value: string): void;
 
-  // Método para atualizar o valor do operando
+  /**
+   * Atualiza o valor do operando com uma nova string.
+   *
+   * @param newValue - O novo valor que será atribuído ao operando.
+   */
   update(newValue: string): void;
 
-  // Método para limpar todo o estado
+  /**
+   * Limpa o estado do operando.
+   */
   reset(): void;
 }

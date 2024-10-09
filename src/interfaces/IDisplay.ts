@@ -1,13 +1,30 @@
 export default interface IDisplay {
-  // Propriedade que armazena o valor atual do display
+  /**
+   * O valor inicial exibido no display ao ser configurado.
+   */
+  initialValue: string;
+
+  /**
+   * O valor atual exibido no display, que pode ser atualizado ou modificado.
+   */
   value: string;
 
-  // Método para adicionar um caractere ao valor atual do display
+  /**
+   * Concatena um caractere ao valor atual do display.
+   *
+   * @param value - O primeiro caractere da string fornecida será concatenado ao valor atual do display.
+   */
   concat(value: string): void;
 
-  // Método para atualizar o valor do display
+  /**
+   * Atualiza o valor do display para o novo valor especificado.
+   *
+   * @param newValue - O novo valor a ser exibido no display.
+   */
   update(newValue: string): void;
 
-  // Método para limpar todo o estado
+  /**
+   * Limpa o estado do display.
+   */
   reset(): void;
 }

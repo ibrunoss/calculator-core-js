@@ -13,7 +13,7 @@ describe("Arithmetic", () => {
   ];
   const arithmetic = new Arithmetic(operators);
 
-  it("should execute ​​correctly operator by symbol", () => {
+  it("should execute correctly operator by symbol", () => {
     expect(arithmetic.executeOperatorBySymbol("+", 1, 2)).toEqual(3);
     expect(arithmetic.executeOperatorBySymbol("-", -1, 2)).toEqual(-3);
     expect(arithmetic.executeOperatorBySymbol("*", 5, -1)).toEqual(-5);
@@ -21,14 +21,14 @@ describe("Arithmetic", () => {
     expect(arithmetic.executeOperatorBySymbol("A", -1, 2)).toEqual(NaN);
   });
 
-  it("should execute ​​correctly operator by index", () => {
+  it("should execute correctly operator by index", () => {
     expect(arithmetic.executeOperatorByIndex(0, 4, 2)).toEqual(6);
     expect(arithmetic.executeOperatorByIndex(1, 4, 2)).toEqual(2);
     expect(arithmetic.executeOperatorByIndex(2, 4, 2)).toEqual(8);
     expect(arithmetic.executeOperatorByIndex(3, 4, 2)).toEqual(2);
   });
 
-  it("should execute ​​correctly all operators", () => {
+  it("should execute correctly all operators", () => {
     expect(arithmetic.executeAllOperators(4, 2)).toEqual([6, 2, 8, 2]);
   });
 });

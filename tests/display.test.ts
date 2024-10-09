@@ -6,6 +6,22 @@ describe("Display", () => {
   beforeEach(() => {
     display = new Display();
   });
+  it("should correctly display initial value", () => {
+    expect(display.initialValue).toEqual("");
+
+    display = new Display("0");
+    expect(display.initialValue).toEqual("0");
+    display.update("11231");
+    expect(display.value).toEqual("11231");
+    expect(display.initialValue).toEqual("0");
+
+    display = new Display("NaN");
+    display.update("2");
+    expect(display.value).toEqual("2");
+    display.reset();
+    expect(display.value).toEqual("NaN");
+    expect(display.initialValue).toEqual("NaN");
+  });
 
   it("should correctly display default value", () => {
     expect(display.value).toEqual("");

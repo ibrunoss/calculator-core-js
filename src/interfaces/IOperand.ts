@@ -1,5 +1,3 @@
-import IStorage from "./IStorage";
-
 export default interface IOperand {
   // Propriedade que armazena o valor atual do operando como uma string
   textValue: string;

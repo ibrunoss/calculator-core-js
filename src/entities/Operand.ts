@@ -1,4 +1,4 @@
-import { IOperand, IStorage } from "../interfaces";
+import { IOperand } from "../interfaces";
 
 export default class Operand implements IOperand {
   constructor(readonly initialValue: string | number = "") {

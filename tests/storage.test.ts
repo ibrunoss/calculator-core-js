@@ -1,4 +1,4 @@
-import Storage from "../src/entities/Storage";
+import { Storage } from "../src/entities";
 
 describe("Storage", () => {
   it("should correctly register the record in storage", () => {

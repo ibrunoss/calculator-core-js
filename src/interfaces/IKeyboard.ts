@@ -3,10 +3,22 @@
  */
 export default interface IKeyboard {
   /**
-   * Pressiona uma tecla no teclado da calculadora.
+   * Trata o evento de liberação de uma tecla no teclado da calculadora.
    *
-   * @param key - O identificador da tecla pressionada (ex: '1', '+', 'C').
-   * @returns O resultado da operação, se aplicável.
+   * Se a tecla pressionada estiver na lista `operatorSymbols` será chamado o callback`addOperator`
+   * Caso não esteja, será chamado o callback `updateValue`
+   *
+   * @param key - O identificador da tecla que foi liberada (ex: '1', '+', 'C').
    */
   onKeyUp(key: string): void;
+
+  /**
+   * Trata o evento de pressão de uma tecla no teclado da calculadora.
+   *
+   * Este método chama somente o callback `updateValue`
+   * O callback `addOperator` nunca será chamado por esse método.
+   *
+   * @param key - O identificador da tecla que foi pressionada (ex: '1', '2222222', '33').
+   */
+  onKeyDown(key: string): void;
 }

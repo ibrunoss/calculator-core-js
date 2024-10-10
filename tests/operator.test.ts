@@ -24,6 +24,7 @@ describe("Operator", () => {
   const powOperator = new Operator("^", (a: number, b: number) =>
     Math.pow(a, b)
   );
+  const resultOperator = new Operator("=", () => NaN);
 
   it("should correctly execute operator", () => {
     expect(addOperator.execute(1, 2)).toEqual(3);
@@ -31,6 +32,7 @@ describe("Operator", () => {
     expect(multiplyOperator.execute(2, 2)).toEqual(4);
     expect(divideOperator.execute(3, 3)).toEqual(1);
     expect(powOperator.execute(2, 3)).toEqual(8);
+    expect(resultOperator.execute()).toEqual(NaN);
   });
 
   it("should correctly show symbol", () => {

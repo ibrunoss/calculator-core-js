@@ -8,11 +8,11 @@ export default class Operator implements IOperator {
   #label: string;
 
   // Função de cálculo
-  #execute: (a: number, b: number) => number;
+  #execute: (...args: number[]) => number;
 
   constructor(
     symbol: string,
-    execute: (a: number, b: number) => number,
+    execute: (...args: number[]) => number,
     label: string = ""
   ) {
     this.#symbol = symbol;
@@ -28,8 +28,8 @@ export default class Operator implements IOperator {
     return this.#label;
   }
 
-  execute(a: number, b: number): number {
+  execute(...args: number[]): number {
     // Chama a função de cálculo
-    return this.#execute(a, b);
+    return this.#execute(...args);
   }
 }

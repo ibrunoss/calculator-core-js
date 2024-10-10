@@ -14,9 +14,10 @@ export default interface IOperator {
   /**
    * Executa a operação definida pelo operador em dois operandos numéricos.
    *
-   * @param a - O primeiro operando.
-   * @param b - O segundo operando.
-   * @returns O resultado da operação aplicada aos dois operandos.
+   * @param args - Um ou mais operandos numéricos sobre os quais a operação será realizada.
+   *               Para operadores binários, espera-se que sejam fornecidos exatamente dois argumentos.
+   * @returns O resultado da operação aplicada aos operandos. O retorno é um número que representa
+   *          o resultado da execução do operador, resultante da operação entre os operandos fornecidos.
    */
-  execute(a: number, b: number): number;
+  execute(...args: number[]): number;
 }

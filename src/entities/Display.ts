@@ -21,6 +21,16 @@ export default class Display implements IDisplay {
     this.update(`${this.value}${value}`);
   }
 
+  // Adiciona um caractere com espaço em branco a esquerda e direita ao valor atual do display
+  concatBetweenWhitespace([value]: string): void {
+    if (this.value === "") {
+      this.update(` ${value} `);
+      return;
+    }
+
+    this.update(`${this.value} ${value} `);
+  }
+
   // Atualiza o valor do display
   update(newValue: string): void {
     const hasMultipleOperators = /.*[+\-*/].*[+\-*/].*/;

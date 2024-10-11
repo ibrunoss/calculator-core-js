@@ -48,6 +48,14 @@ describe("Display", () => {
     expect(display.value).toEqual("0+2.8");
   });
 
+  it("should correctly concat between whitespace display value", () => {
+    display.concatBetweenWhitespace("01231");
+    expect(display.value).toEqual(" 0 ");
+
+    display.concatBetweenWhitespace("+123");
+    expect(display.value).toEqual(" 0  + ");
+  });
+
   it("should correctly update display value", () => {
     display.update("1.123");
     expect(display.value).toEqual("1.123");

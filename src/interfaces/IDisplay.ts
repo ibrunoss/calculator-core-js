@@ -17,6 +17,13 @@ export default interface IDisplay {
   concat(value: string): void;
 
   /**
+   * Concatena um caractere com espaço em branco a esquerda e direita ao valor atual do display.
+   *
+   * @param value - O primeiro caractere da string fornecida será concatenado ao valor atual do display.
+   */
+  concatBetweenWhitespace(value: string): void;
+
+  /**
    * Atualiza o valor do display para o novo valor especificado.
    *
    * @param newValue - O novo valor a ser exibido no display.

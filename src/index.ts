@@ -1,1 +1,2 @@
-export const helloWord = "Hello Word!";
+export * from "./entities";
+export { default as Calculator } from "./Calculator";

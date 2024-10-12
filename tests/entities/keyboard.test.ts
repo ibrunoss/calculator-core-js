@@ -1,4 +1,4 @@
-import { Keyboard } from "../src/entities";
+import { Keyboard } from "../../src/entities";
 
 describe("Keyboard", () => {
   const mockUpdateValue = jest.fn();

@@ -1,4 +1,4 @@
-import { Operator } from "../src/entities";
+import { Operator } from "../../src/entities";
 
 describe("Operator", () => {
   const addOperator = new Operator(

@@ -1,4 +1,4 @@
-import { Display } from "../src/entities";
+import { Display } from "../../src/entities";
 
 describe("Display", () => {
   let display = new Display();

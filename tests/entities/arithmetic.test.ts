@@ -1,4 +1,4 @@
-import { Arithmetic, Operator } from "../src/entities";
+import { Arithmetic, Operator } from "../../src/entities";
 
 describe("Arithmetic", () => {
   const addOperator = new Operator("+", (a: number, b: number) => a + b);

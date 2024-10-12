@@ -1,4 +1,4 @@
-import { Operand } from "../src/entities";
+import { Operand } from "../../src/entities";
 
 describe("Operand", () => {
   let operand = new Operand();
